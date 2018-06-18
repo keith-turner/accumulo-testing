@@ -1,20 +1,23 @@
 package org.apache.accumulo.testing.core.performance;
 
-import java.util.List;
-
-import com.google.common.collect.ImmutableList;
-
 public class Result {
-  public final String description;
-  public final List<Metric> metrics;
 
-  public Result(String description, Metric ... metrics) {
+  public final String id;
+  public final Number data;
+  public final Stats stats;
+  public final String description;
+
+  public Result(String id, Number data, String description) {
+    this.id = id;
+    this.data = data;
+    this.stats = null;
     this.description = description;
-    this.metrics = ImmutableList.copyOf(metrics);
   }
 
-  public Result(String description, List<Metric> metrics) {
+  public Result(String id, Stats stats, String description) {
+    this.id = id;
+    this.stats = stats;
+    this.data = null;
     this.description = description;
-    this.metrics = ImmutableList.copyOf(metrics);
   }
 }

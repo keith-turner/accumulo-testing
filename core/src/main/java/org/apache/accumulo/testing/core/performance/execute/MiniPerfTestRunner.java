@@ -11,15 +11,15 @@ import org.apache.accumulo.minicluster.MiniAccumuloCluster;
 import org.apache.accumulo.minicluster.MiniAccumuloConfig;
 import org.apache.accumulo.testing.core.performance.Environment;
 import org.apache.accumulo.testing.core.performance.PerformanceTest;
-import org.apache.accumulo.testing.core.performance.Result;
-import org.apache.accumulo.testing.core.performance.tests.ScanExecutorPT;
+import org.apache.accumulo.testing.core.performance.Results;
+import org.apache.accumulo.testing.core.performance.tests.ScanFewFamiliesPT;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class MiniPerfTestRunner {
-  public static void main(String[] args) throws Exception  {
-    String className = ScanExecutorPT.class.getName();
+  public static void main(String[] args) throws Exception {
+    String className = ScanFewFamiliesPT.class.getName();
     Path dir = Files.createTempDirectory(Paths.get("/tmp"), "accumulo-perf-test");
 
     PerformanceTest perfTest = Class.forName(className).asSubclass(PerformanceTest.class).newInstance();
@@ -32,7 +32,7 @@ public class MiniPerfTestRunner {
     MiniAccumuloCluster mac = new MiniAccumuloCluster(cfg);
     mac.start();
 
-    Result result = perfTest.runTest(new Environment() {
+    Results result = perfTest.runTest(new Environment() {
       @Override
       public Connector getConnector() {
         try {

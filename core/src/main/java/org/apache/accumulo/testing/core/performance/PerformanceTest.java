@@ -4,5 +4,5 @@ public interface PerformanceTest {
 
   SystemConfiguration getConfiguration();
 
-  Result runTest(Environment env) throws Exception;
+  Results runTest(Environment env) throws Exception;
 }
