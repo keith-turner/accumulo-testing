@@ -1,4 +1,4 @@
-package org.apache.accumulo.testing.core.performance.execute;
+package org.apache.accumulo.testing.core.performance.impl;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,14 +12,18 @@ import org.apache.accumulo.minicluster.MiniAccumuloConfig;
 import org.apache.accumulo.testing.core.performance.Environment;
 import org.apache.accumulo.testing.core.performance.PerformanceTest;
 import org.apache.accumulo.testing.core.performance.Results;
-import org.apache.accumulo.testing.core.performance.tests.ScanFewFamiliesPT;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class MiniPerfTestRunner {
   public static void main(String[] args) throws Exception {
-    String className = ScanFewFamiliesPT.class.getName();
+
+    FileSystem.get(new Configuration());
+
+    String className = args[0];
     Path dir = Files.createTempDirectory(Paths.get("/tmp"), "accumulo-perf-test");
 
     PerformanceTest perfTest = Class.forName(className).asSubclass(PerformanceTest.class).newInstance();
@@ -47,6 +51,6 @@ public class MiniPerfTestRunner {
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    System.out.println(gson.toJson(result));
+    System.out.println(gson.toJson(new ClassyResults(className, result)));
   }
 }

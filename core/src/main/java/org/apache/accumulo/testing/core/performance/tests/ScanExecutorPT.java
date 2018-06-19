@@ -87,9 +87,10 @@ public class ScanExecutorPT implements PerformanceTest {
 
     longScans.close();
 
-    return Results.builder().description(TEST_DESC).result("short_times1", shortStats1, "Times in ms for each short scan.  First run.")
-        .result("short_times2", shortStats2, "Times in ms for each short scan. Second run.")
-        .result("long_counts", longStats, "Entries read by each long scan threads")
+    return Results.builder().description(TEST_DESC).info("short_times1", shortStats1, "Times in ms for each short scan.  First run.")
+        .info("short_times2", shortStats2, "Times in ms for each short scan. Second run.")
+        .result("short_avg2", shortStats2.getAverage(), "Average times in ms for short scans from 2nd run.")
+        .info("long_counts", longStats, "Entries read by each long scan threads")
         .result("long_rate", longStats.getSum() / ((t2-t1)/1000.0), "Combined rate in entries/second of all long scans")
         .parameter("short_scans", NUM_SHORT_SCANS, "Short scans ran.  Each short scan reads a random row and family.")
         .parameter("short_threads", NUM_SHORT_SCANS_THREADS, "Threads used to run short scans.")

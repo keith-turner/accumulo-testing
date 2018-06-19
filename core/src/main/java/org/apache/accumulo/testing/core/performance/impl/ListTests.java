@@ -1,4 +1,4 @@
-package org.apache.accumulo.testing.core.performance.execute;
+package org.apache.accumulo.testing.core.performance.impl;
 
 import org.apache.accumulo.testing.core.performance.PerformanceTest;
 

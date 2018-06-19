@@ -25,6 +25,7 @@ function print_usage() {
 Usage: accumulo-testing <command> (<argument>)
 
 Possible commands:
+  performance                   Runs performance tests.
   agitator <command>            Runs agitator <command>. Available commands: start, stop
   ci-createtable                Creates Accumulo table with splits for continuous ingest tests
   ci-local <application>        Runs continuous ingest <application> in local java process
@@ -257,6 +258,27 @@ agitator)
       ;;
     *)
       echo "ERROR: unknown command - $2"
+      print_usage
+      exit 1
+  esac
+  ;;
+performance)
+  build_shade_jar
+  CLASSPATH="$at_home/conf:$at_home/core/target/accumulo-testing-core-$at_version-shaded.jar"
+  unset HADOOP_PREFIX
+  unset HADOOP_HOME
+  perf_pkg="org.apache.accumulo.testing.core.performance.impl"
+  case "$2" in 
+    run)
+      java -Dlog4j.configuration="file:$log4j_config" ${perf_pkg}.ListTests | while read in; do
+        java -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.MiniPerfTestRunner "$in"
+      done
+      ;;
+    analyze)
+      java -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.Analyze "$3" "$4"
+      ;;
+    *)
+      echo "Unknown command : $1"
       print_usage
       exit 1
   esac

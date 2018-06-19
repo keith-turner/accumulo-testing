@@ -47,7 +47,8 @@ public class ScanFewFamiliesPT implements PerformanceTest {
 
     for (int numFams : new int[] {1, 2, 4, 8, 16}) {
       LongSummaryStatistics stats = runScans(env, tableName, numFams);
-      builder.result("fetch_" + numFams, stats, "Times in ms to fetch " + numFams + " families from all rows");
+      builder.info("fetch_" + numFams, stats, "Times in ms to fetch " + numFams + " families from all rows");
+      builder.result("fetch_" + numFams + "_avg", stats.getAverage(), "Average time in ms to fetch " + numFams + " families from all rows");
     }
 
     builder.description(DESC);

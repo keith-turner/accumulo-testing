@@ -3,6 +3,8 @@ package org.apache.accumulo.testing.core.performance;
 import java.util.List;
 import java.util.LongSummaryStatistics;
 
+import org.apache.accumulo.testing.core.performance.Result.Purpose;
+
 import com.google.common.collect.ImmutableList;
 
 public class Results {
@@ -29,12 +31,24 @@ public class Results {
     }
 
     public Builder result(String id, LongSummaryStatistics stats, String description) {
-      results.add(new Result(id, new Stats(stats.getMin(), stats.getMax(), stats.getSum(), stats.getAverage(), stats.getCount()), description));
+      results.add(new Result(id, new Stats(stats.getMin(), stats.getMax(), stats.getSum(), stats.getAverage(), stats.getCount()), description,
+          Purpose.COMPARISON));
       return this;
     }
 
     public Builder result(String id, Number data, String description) {
-      results.add(new Result(id, data, description));
+      results.add(new Result(id, data, description, Purpose.COMPARISON));
+      return this;
+    }
+
+    public Builder info(String id, LongSummaryStatistics stats, String description) {
+      results.add(new Result(id, new Stats(stats.getMin(), stats.getMax(), stats.getSum(), stats.getAverage(), stats.getCount()), description,
+          Purpose.INFORMATIONAL));
+      return this;
+    }
+
+    public Builder info(String id, Number data, String description) {
+      results.add(new Result(id, data, description, Purpose.INFORMATIONAL));
       return this;
     }
 
