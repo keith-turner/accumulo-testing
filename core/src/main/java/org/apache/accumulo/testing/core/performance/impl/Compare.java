@@ -19,7 +19,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonStreamParser;
 
-public class Analyze {
+public class Compare {
 
   private static class TestId {
 
@@ -52,8 +52,8 @@ public class Analyze {
   }
 
   public static void main(String[] args) throws Exception {
-    Map<TestId,Double> oldResults = flatten(readResults(args[0]));
-    Map<TestId,Double> newResults = flatten(readResults(args[1]));
+    Map<TestId,Double> oldResults = flatten(readReports(args[0]));
+    Map<TestId,Double> newResults = flatten(readReports(args[1]));
 
     for (TestId testId : Sets.union(oldResults.keySet(), newResults.keySet())) {
       Double oldResult = oldResults.get(testId);
@@ -68,15 +68,15 @@ public class Analyze {
     }
   }
 
-  private static Collection<ClassyResults> readResults(String file) throws Exception {
+  static Collection<ContextualReport> readReports(String file) throws Exception {
     try (BufferedReader reader = Files.newBufferedReader(Paths.get(file))) {
       Gson gson = new GsonBuilder().create();
       JsonStreamParser p = new JsonStreamParser(reader);
-      List<ClassyResults> rl = new ArrayList<>();
+      List<ContextualReport> rl = new ArrayList<>();
 
       while (p.hasNext()) {
         JsonElement e = p.next();
-        ClassyResults results = gson.fromJson(e, ClassyResults.class);
+        ContextualReport results = gson.fromJson(e, ContextualReport.class);
         rl.add(results);
       }
 
@@ -84,10 +84,10 @@ public class Analyze {
     }
   }
 
-  private static Map<TestId,Double> flatten(Collection<ClassyResults> results) {
+  private static Map<TestId,Double> flatten(Collection<ContextualReport> results) {
     HashMap<TestId,Double> flattened = new HashMap<>();
 
-    for (ClassyResults cr : results) {
+    for (ContextualReport cr : results) {
       for (Result r : cr.results) {
         if (r.purpose == Purpose.COMPARISON) {
           flattened.put(new TestId(cr.testClass, r.id), r.data.doubleValue());

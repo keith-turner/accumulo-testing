@@ -271,11 +271,14 @@ performance)
   case "$2" in 
     run)
       java -Dlog4j.configuration="file:$log4j_config" ${perf_pkg}.ListTests | while read in; do
-        java -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.MiniPerfTestRunner "$in"
+        java -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.MiniPerfTestRunner "$in" $ACCUMULO_VERSION
       done
       ;;
-    analyze)
-      java -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.Analyze "$3" "$4"
+    compare)
+      java -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.Compare "$3" "$4"
+      ;;
+    csv)
+      java -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.Csv "${@:3}"
       ;;
     *)
       echo "Unknown command : $1"

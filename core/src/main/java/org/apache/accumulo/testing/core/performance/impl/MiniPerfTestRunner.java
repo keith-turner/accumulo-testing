@@ -3,6 +3,7 @@ package org.apache.accumulo.testing.core.performance.impl;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 
 import org.apache.accumulo.core.client.AccumuloException;
 import org.apache.accumulo.core.client.AccumuloSecurityException;
@@ -11,7 +12,7 @@ import org.apache.accumulo.minicluster.MiniAccumuloCluster;
 import org.apache.accumulo.minicluster.MiniAccumuloConfig;
 import org.apache.accumulo.testing.core.performance.Environment;
 import org.apache.accumulo.testing.core.performance.PerformanceTest;
-import org.apache.accumulo.testing.core.performance.Results;
+import org.apache.accumulo.testing.core.performance.Report;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 
@@ -24,6 +25,7 @@ public class MiniPerfTestRunner {
     FileSystem.get(new Configuration());
 
     String className = args[0];
+    String accumuloVersion = args[1];
     Path dir = Files.createTempDirectory(Paths.get("/tmp"), "accumulo-perf-test");
 
     PerformanceTest perfTest = Class.forName(className).asSubclass(PerformanceTest.class).newInstance();
@@ -36,7 +38,9 @@ public class MiniPerfTestRunner {
     MiniAccumuloCluster mac = new MiniAccumuloCluster(cfg);
     mac.start();
 
-    Results result = perfTest.runTest(new Environment() {
+    Instant start = Instant.now();
+
+    Report result = perfTest.runTest(new Environment() {
       @Override
       public Connector getConnector() {
         try {
@@ -47,10 +51,12 @@ public class MiniPerfTestRunner {
       }
     });
 
+    Instant stop = Instant.now();
+
     mac.stop();
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    System.out.println(gson.toJson(new ClassyResults(className, result)));
+    System.out.println(gson.toJson(new ContextualReport(className, accumuloVersion, start, stop, result)));
   }
 }
