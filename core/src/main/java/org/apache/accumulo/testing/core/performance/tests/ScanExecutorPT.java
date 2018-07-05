@@ -66,9 +66,6 @@ public class ScanExecutorPT implements PerformanceTest {
 
     env.getConnector().tableOperations().create(tableName, new NewTableConfiguration().setProperties(props));
 
-    Instant t1 = Instant.now();
-
-
     long t1 = System.currentTimeMillis();
     TestData.generate(env.getConnector(), tableName, NUM_ROWS, NUM_FAMS, NUM_QUALS);
     long t2 = System.currentTimeMillis();
