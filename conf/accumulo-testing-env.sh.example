@@ -23,6 +23,24 @@ export ZOOKEEPER_VERSION=3.4.9
 # Make sure Hadoop configuration directory is on the classpath
 export CLASSPATH=$HADOOP_PREFIX/etc/hadoop
 
+function get_version {
+  case $1 in
+    ACCUMULO)
+      `accumulo version`
+      ;;
+    HADOOP)
+      `hadoop version | head -n1 | awk '{print $2}'`
+      ;;
+    ZOOKEEPER)
+      echo "3.4.12"
+      ;;
+    *)
+      return 1
+  esac
+}
+
+
+
 # Agitator
 # ========
 # Agitator needs know where Accumulo is installed

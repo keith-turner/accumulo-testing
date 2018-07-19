@@ -1,18 +1,49 @@
 # internal functions just for uno cluster control 
 
+UNO_HOME=/home/keith/git/uno
+UNO=$UNO_HOME/bin/uno
+
 function get_ah {
-  echo "$(uno env | grep ACCUMULO_HOME | sed 's/export ACCUMULO_HOME=//' | sed 's/"//g')"
+  echo "$($UNO env | grep ACCUMULO_HOME | sed 's/export ACCUMULO_HOME=//' | sed 's/"//g')"
 }
 
 
 # functions required for accumulo testing cluster control
 
+function get_version {
+  case $1 in
+    ACCUMULO)
+      (
+        # run following in sub shell so it does not pollute
+        . $UNO_HOME/conf/uno.conf
+        echo $ACCUMULO_VERSION
+      )
+      ;;
+    HADOOP)
+      (
+        # run following in sub shell so it does not pollute
+        . $UNO_HOME/conf/uno.conf
+        echo $HADOOP_VERSION
+      )
+      ;;
+    ZOOKEEPER)
+      (
+        # run following in sub shell so it does not pollute
+        . $UNO_HOME/conf/uno.conf
+        echo $ZOOKEEPER_VERSION
+      )
+      ;;
+    *)
+      return 1
+  esac
+}
+
 function start_cluster {
-  uno setup accumulo
+  $UNO setup accumulo
 }
 
 function setup_accumulo {
-  uno setup accumulo --no-deps 
+  $UNO setup accumulo --no-deps
 }
 
 function get_config_file {
@@ -31,12 +62,12 @@ function put_server_code {
 }
 
 function start_accumulo {
-  uno stop accumulo --no-deps
-  uno start accumulo --no-deps
+  $UNO stop accumulo --no-deps
+  $UNO start accumulo --no-deps
 }
 
 function stop_cluster {
-  uno kill
+  $UNO kill
 }
 
 
