@@ -1,6 +1,6 @@
 # internal functions just for uno cluster control 
 
-UNO_HOME=/home/keith/git/uno
+UNO_HOME=/home/ubuntu/git/uno
 UNO=$UNO_HOME/bin/uno
 
 function get_ah {
@@ -39,11 +39,12 @@ function get_version {
 }
 
 function start_cluster {
-  $UNO setup accumulo
+  :
 }
 
 function setup_accumulo {
-  $UNO setup accumulo --no-deps
+  $UNO kill
+  $UNO setup accumulo
 }
 
 function get_config_file {
