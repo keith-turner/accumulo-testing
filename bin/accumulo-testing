@@ -262,43 +262,6 @@ agitator)
       exit 1
   esac
   ;;
-performance)
-  # TODO need to check if cluster-control.sh exists
-  . $at_home/conf/cluster-control.sh
-  build_shade_jar
-  CLASSPATH="$at_home/conf:$at_home/core/target/accumulo-testing-core-$at_version-shaded.jar"
-  unset HADOOP_PREFIX
-  unset HADOOP_HOME
-  unset ACCUMULO_HOME
-  perf_pkg="org.apache.accumulo.testing.core.performance.impl"
-  case "$2" in 
-    run)
-     start_cluster
-      java -Dlog4j.configuration="file:$log4j_config" ${perf_pkg}.ListTests | while read test_class; do
-        pt_tmp=$(mktemp -d -t accumulo_pt_XXXXXXX)
-        setup_accumulo
-        get_config_file accumulo-site.xml "$pt_tmp"
-        java -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.MergeSiteConfig "$test_class" "$pt_tmp"
-        put_config_file "$pt_tmp/accumulo-site.xml"
-        put_server_code "$at_home/core/target/accumulo-testing-core-$at_version.jar" 
-        start_accumulo
-        get_config_file accumulo-client.properties "$pt_tmp"
-        java -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.PerfTestRunner "$pt_tmp/accumulo-client.properties" "$test_class" $ACCUMULO_VERSION "$3"
-      done
-      stop_cluster
-      ;;
-    compare)
-      java -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.Compare "$3" "$4"
-      ;;
-    csv)
-      java -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.Csv "${@:3}"
-      ;;
-    *)
-      echo "Unknown command : $1"
-      print_usage
-      exit 1
-  esac
-  ;;
 *)
   echo "Unknown command: $1"
   print_usage
