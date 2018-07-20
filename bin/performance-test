@@ -84,10 +84,10 @@ case "$1" in
     stop_cluster
     ;;
   compare)
-    java -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.Compare "$2" "$3"
+    java -cp "$CP" -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.Compare "$2" "$3"
     ;;
   csv)
-    java -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.Csv "${@:2}"
+    java -cp "$CP" -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.Csv "${@:2}"
     ;;
   *)
     echo "Unknown command : $1"
