@@ -19,6 +19,19 @@ bin_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 at_home=$( cd "$( dirname "$bin_dir" )" && pwd )
 at_version=2.0.0-SNAPSHOT
 
+function print_usage() {
+  cat <<EOF
+
+Usage: performance-test <command> (<argument>)
+
+Possible commands:
+  run <output dir>                 Runs performance tests.
+  compare <result 1> <result 2>    Compares results of two test.
+  csv {files}                      Converts results to CSV
+EOF
+}
+
+
 function build_shade_jar() {
   at_shaded_jar="$at_home/core/target/accumulo-testing-core-$at_version-shaded.jar"
   if [ ! -f "$at_shaded_jar" ]; then
@@ -37,15 +50,26 @@ if [ ! -f "$log4j_config" ]; then
   fi
 fi
 
-# TODO need to check if cluster-control.sh exists
+
+if [ ! -f "$at_home/conf/cluster-control.sh" ]; then
+  echo "Could not find cluster-control.sh"
+  exit 1
+fi
+
 . $at_home/conf/cluster-control.sh
 build_shade_jar
 CP="$at_home/core/target/accumulo-testing-core-$at_version-shaded.jar"
 perf_pkg="org.apache.accumulo.testing.core.performance.impl"
 case "$1" in 
   run)
-   start_cluster
+    if [ -z "$2" ]; then
+      echo "ERROR: <output dir> needs to be set"
+      print_usage
+      exit 1
+    fi
+    start_cluster
     java -cp "$CP" -Dlog4j.configuration="file:$log4j_config" ${perf_pkg}.ListTests | while read test_class; do
+      echo "Running test $test_class"
       pt_tmp=$(mktemp -d -t accumulo_pt_XXXXXXX)
       setup_accumulo
       get_config_file accumulo-site.xml "$pt_tmp"
@@ -66,6 +90,7 @@ case "$1" in
     ;;
   *)
     echo "Unknown command : $1"
+    print_usage
     exit 1
 esac
  

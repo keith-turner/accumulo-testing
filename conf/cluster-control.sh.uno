@@ -39,12 +39,11 @@ function get_version {
 }
 
 function start_cluster {
-  :
+  $UNO setup accumulo
 }
 
 function setup_accumulo {
-  $UNO kill
-  $UNO setup accumulo
+  $UNO setup accumulo --no-deps
 }
 
 function get_config_file {
@@ -63,12 +62,10 @@ function put_server_code {
 }
 
 function start_accumulo {
-  $UNO stop accumulo --no-deps
-  $UNO start accumulo --no-deps
+  $UNO stop accumulo --no-deps &> /dev/null
+  $UNO start accumulo --no-deps &> /dev/null
 }
 
 function stop_cluster {
   $UNO kill
 }
-
-

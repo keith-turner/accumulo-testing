@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.apache.accumulo.core.client.AccumuloException;
 import org.apache.accumulo.core.client.AccumuloSecurityException;
@@ -42,7 +44,9 @@ public class PerfTestRunner {
 
     ContextualReport report = new ContextualReport(className, accumuloVersion, start, stop, result);
 
-    Path outputFile = Paths.get(outputDir, perfTest.getClass().getSimpleName() + ".json");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+    String time = LocalDate.now().format(formatter);
+    Path outputFile = Paths.get(outputDir, perfTest.getClass().getSimpleName() + "_"+time+".json");
 
     try (Writer writer = Files.newBufferedWriter(outputFile)) {
       gson.toJson(report, writer);
