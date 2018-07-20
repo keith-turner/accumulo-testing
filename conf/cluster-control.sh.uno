@@ -1,4 +1,4 @@
-# internal functions just for uno cluster control 
+# internal functions just for uno cluster control
 
 UNO_HOME=/home/ubuntu/git/uno
 UNO=$UNO_HOME/bin/uno

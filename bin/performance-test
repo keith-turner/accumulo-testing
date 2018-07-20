@@ -60,7 +60,7 @@ fi
 build_shade_jar
 CP="$at_home/core/target/accumulo-testing-core-$at_version-shaded.jar"
 perf_pkg="org.apache.accumulo.testing.core.performance.impl"
-case "$1" in 
+case "$1" in
   run)
     if [ -z "$2" ]; then
       echo "ERROR: <output dir> needs to be set"
@@ -76,7 +76,7 @@ case "$1" in
       get_config_file accumulo-site.xml "$pt_tmp"
       java -cp "$CP" -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.MergeSiteConfig "$test_class" "$pt_tmp"
       put_config_file "$pt_tmp/accumulo-site.xml"
-      put_server_code "$at_home/core/target/accumulo-testing-core-$at_version.jar" 
+      put_server_code "$at_home/core/target/accumulo-testing-core-$at_version.jar"
       start_accumulo
       get_config_file accumulo-client.properties "$pt_tmp"
       java -cp "$CP" -Dlog4j.configuration="file:$log4j_config"  ${perf_pkg}.PerfTestRunner "$pt_tmp/accumulo-client.properties" "$test_class" "$(get_version 'ACCUMULO')" "$2"
@@ -94,4 +94,4 @@ case "$1" in
     print_usage
     exit 1
 esac
- 
+
