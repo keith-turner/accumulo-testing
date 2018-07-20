@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import org.apache.accumulo.core.client.AccumuloException;
@@ -45,7 +46,7 @@ public class PerfTestRunner {
     ContextualReport report = new ContextualReport(className, accumuloVersion, start, stop, result);
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-    String time = LocalDate.now().format(formatter);
+    String time = Instant.now().atZone(ZoneId.systemDefault()).format(formatter);
     Path outputFile = Paths.get(outputDir, perfTest.getClass().getSimpleName() + "_"+time+".json");
 
     try (Writer writer = Files.newBufferedWriter(outputFile)) {
