@@ -11,11 +11,18 @@ cd ~/git
 
 git clone $ACCUMULO_GIT_REPO
 cd accumulo
+git checkout $ACCUMULO_GIT_BRANCH
 mvn install -PskipQA
 
 cd ~/git
 git clone $TEST_GIT_REPO
 cd accumulo-testing
+git checkout $TEST_GIT_BRANCH
+
+# TODO need to 
+#  * cp conf/accumulo-testing.properties.example conf/accumulo-testing.properties
+#  * edit conf/accumulo-testing.properties and set test.common.hdfs.root and test.common.yarn.resource.manager
+
 ./bin/build
 
 cp $ACCUMULO_HOME/conf/accumulo-client.properties ./conf
