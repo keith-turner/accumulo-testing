@@ -62,7 +62,10 @@ public class WALTester {
     this.fs = VolumeManagerImpl.get(siteConfig, hadoopConfig);
   }
 
-  public void verifyWalOps(Path filePath, boolean syncable, boolean useHsync) throws IOException {
+  public boolean verifyWalOps(Path filePath, boolean syncable, boolean useHsync) throws IOException {
+    
+    boolean succeeded=true;
+    
     FSDataOutputStream out;
     if (syncable) {
       log.info("Creating syncable file");
@@ -95,14 +98,17 @@ public class WALTester {
     } catch (Exception e) {
       log.info("Got exception on write+sync after close as expected", e);
       gotException = true;
+      result.sawException1=true;
     }
     if (!gotException) {
       log.error("No exception on write+sync after log was closed");
+      succeeded = false;
     }
 
     try {
       if (out != null) {
         out.close();
+        succeeded = false;
       }
     } catch (Exception e) {
       log.info("Got exception on close as expected", e);
@@ -117,10 +123,14 @@ public class WALTester {
         log.info("Read text " + t);
         count++;
       }
+      result.count = count;
       if (count != 1) {
         log.error("Expected to read 1 flushed entry from file, but got {}", count);
+        succeeded = false;
       }
     }
+    
+    return succeeded;
   }
 
   public static void main(String[] args) throws Exception {
@@ -131,9 +141,13 @@ public class WALTester {
     WALTester walTester = new WALTester(args[0]);
     Path basePath = new Path(args[1]);
 
-    walTester.verifyWalOps(new Path(basePath, "1"), false, true);
-    walTester.verifyWalOps(new Path(basePath, "2"), false, false);
-    walTester.verifyWalOps(new Path(basePath, "3"), true, true);
-    walTester.verifyWalOps(new Path(basePath, "4"), true, false);
+    boolean succeeded = true;
+    
+    succeeded &= walTester.verifyWalOps(new Path(basePath, "1"), false, true);
+    succeeded &= walTester.verifyWalOps(new Path(basePath, "2"), false, false);
+    succeeded &= walTester.verifyWalOps(new Path(basePath, "3"), true, true);
+    succeeded &= walTester.verifyWalOps(new Path(basePath, "4"), true, false);
+    
+    if(!succeeded) System.exit(1);
   }
 }
