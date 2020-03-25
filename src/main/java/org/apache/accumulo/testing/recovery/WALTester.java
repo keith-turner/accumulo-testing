@@ -62,10 +62,12 @@ public class WALTester {
     this.fs = VolumeManagerImpl.get(siteConfig, hadoopConfig);
   }
 
-  public boolean verifyWalOps(Path filePath, boolean syncable, boolean useHsync) throws IOException {
-    
-    boolean succeeded=true;
-    
+  public static interface SyncFunc {
+    void sync(FSDataOutputStream out) throws IOException;
+  }
+  
+  public boolean verifyWalOps(Path filePath, boolean syncable, SyncFunc syncFunc) throws IOException {
+    boolean succeeded = true;
     FSDataOutputStream out;
     if (syncable) {
       log.info("Creating syncable file");
@@ -76,11 +78,8 @@ public class WALTester {
     }
     log.info("Writing to file");
     HELLO.write(out);
-    if (useHsync) {
-      out.hsync();
-    } else {
-      out.hflush();
-    }
+    syncFunc.sync(out);
+    
     HELLO.write(out);
     log.info("Calling log closer");
     logCloser.close(siteConfig, hadoopConfig, fs, filePath);
@@ -90,11 +89,7 @@ public class WALTester {
       log.info("Writing to file after log close");
       HELLO.write(out);
       log.info("Syncing after log close");
-      if (useHsync) {
-        out.hsync();
-      } else {
-        out.hflush();
-      }
+      syncFunc.sync(out);
     } catch (Exception e) {
       log.info("Got exception on write+sync after close as expected", e);
       gotException = true;
@@ -140,12 +135,12 @@ public class WALTester {
     Path basePath = new Path(args[1]);
 
     boolean succeeded = true;
-    
-    succeeded &= walTester.verifyWalOps(new Path(basePath, "1"), false, true);
-    succeeded &= walTester.verifyWalOps(new Path(basePath, "2"), false, false);
-    succeeded &= walTester.verifyWalOps(new Path(basePath, "3"), true, true);
-    succeeded &= walTester.verifyWalOps(new Path(basePath, "4"), true, false);
-    
+
+    succeeded &= walTester.verifyWalOps(new Path(basePath, "1"), false, FSDataOutputStream::hsync);
+    succeeded &= walTester.verifyWalOps(new Path(basePath, "2"), false, FSDataOutputStream::hflush);
+    succeeded &= walTester.verifyWalOps(new Path(basePath, "3"), true, FSDataOutputStream::hsync);
+    succeeded &= walTester.verifyWalOps(new Path(basePath, "4"), true, FSDataOutputStream::hflush);
+
     if(!succeeded) System.exit(1);
   }
 }
