@@ -98,7 +98,6 @@ public class WALTester {
     } catch (Exception e) {
       log.info("Got exception on write+sync after close as expected", e);
       gotException = true;
-      result.sawException1=true;
     }
     if (!gotException) {
       log.error("No exception on write+sync after log was closed");
@@ -123,7 +122,6 @@ public class WALTester {
         log.info("Read text " + t);
         count++;
       }
-      result.count = count;
       if (count != 1) {
         log.error("Expected to read 1 flushed entry from file, but got {}", count);
         succeeded = false;
