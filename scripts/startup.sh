@@ -8,3 +8,6 @@ accumulo shell -u root -p secret -e "config -s tserver.compaction.major.concurre
 while read host; do
   docker save accumulo-testing | ssh -C $host docker load &
 done < $ACCUMULO_HOME/conf/tservers
+
+
+docker service create --network="host" --replicas 10 --name ci --restart-condition none  accumulo-testing cingest ingest -o test.ci.ingest.client.entries=6000000000
