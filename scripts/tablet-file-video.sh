@@ -16,3 +16,6 @@ for i in {0..60}; do
 	echo "That's all folks." |  convert -size 850x330 xc:black -font /usr/share/fonts/truetype/noto/NotoMono-Regular.ttf -pointsize 24 -fill white -annotate +25+25 "@-"  frames/$(printf '%05d.png' $counter)
 	let counter=counter+1
 done
+
+cd frames
+ffmpeg -framerate 30 -i '%05d.png' tablet-files.gif
