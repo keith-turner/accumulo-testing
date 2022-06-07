@@ -1,8 +1,32 @@
 # Results of scan server testing
 
-Testing was performed on the [new Accumulo scan server feature](https://github.com/apache/accumulo/pull/2665) to see how it behaved in a few different scenarios. The following variables were adjusted prior to starting each test.
+Testing was performed on the [new Accumulo scan server feature](https://github.com/apache/accumulo/pull/2665) to see how it behaved in a few different scenarios.  The test all ran against a small amount of ContinuousIngest data in a table with 20 tablets.  Below is what the test data looked like.  The test ran this new class [ContinuousQuery](../src/main/java/org/apache/accumulo/testing/continuous/ContinuousQuery.java).
 
-> **NOTE** It might be useful to describe the test setup: how data was inserted, number of tablets in table, number of entries table, avg number of entries in tablet, etc.
+```
+root@accumulo-testing> scan -t accumulo.metadata -c file
+1;0666666666666667 file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-0000046/A00000cr.rf [] 5317109,149925
+1;0cccccccccccccce file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-0000047/A000007w.rf [] 5309606,149756
+1;1333333333333335 file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-0000048/A00000ct.rf [] 5323107,150232
+1;199999999999999c file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-0000049/A000007y.rf [] 5336848,150224
+1;2000000000000003 file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004a/A0000005.rf [] 5330425,149955
+1;266666666666666a file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004b/A00000cu.rf [] 5338047,150126
+1;2cccccccccccccd1 file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004c/A00000cv.rf [] 5346600,150409
+1;3333333333333338 file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004d/A0000006.rf [] 5326093,149738
+1;399999999999999f file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004e/A000007u.rf [] 5352169,150675
+1;4000000000000006 file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004f/A0000007.rf [] 5306946,149412
+1;466666666666666d file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004g/A00000cw.rf [] 5309084,149312
+1;4cccccccccccccd4 file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004h/A00000cs.rf [] 5320576,149987
+1;533333333333333b file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004i/A000007z.rf [] 5334960,150186
+1;59999999999999a2 file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004j/A00000cq.rf [] 5317236,149628
+1;6000000000000009 file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004k/A0000003.rf [] 5331973,150353
+1;666666666666667 file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004l/A0000002.rf []  5323213,149751
+1;6cccccccccccccd7 file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004m/A0000004.rf [] 5325651,149963
+1;733333333333333e file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004n/A000007v.rf [] 5323228,150219
+1;79999999999999a5 file:hdfs://10.0.2.6:8000/accumulo/tables/1/t-000004o/A000007x.rf [] 5331272,150392
+1< file:hdfs://10.0.2.6:8000/accumulo/tables/1/default_tablet/A0000001.rf []    5325093,149756
+```
+
+The following variables were adjusted prior to starting each test.
 
  * **Busy timeout** : Scan servers offer a feature that tablet servers do not have called busy timeout.  An Accumulo client can specify a busy timeout when requesting a scan on a scan server. If the scan does not start running within the requested busy timeout, then the scan server will return to the client which can choose another scan server.  
  * **Initial servers** : Accumulo clients choose which scan server to send a request via a client side plugin.  The default plugin hashes tablets to scans servers so that different client instances will choose the same scan servers for a given tablet.  Sending scans for the same tablet to the same scan server helps increase cache utilization on scan servers.  The tests were configured to choose a random scan server from an initial small set of scan servers.  If the initial scan got a busy timeout, then the tests were configured to randomly choose scan server from all available scan servers.
@@ -11,11 +35,7 @@ Testing was performed on the [new Accumulo scan server feature](https://github.c
  * **#concurrent** : The total number or concurrent threads that would be executing scans during a test.  These threads were running in multiple VMs.
  * **workload config** : The types of scans run for a test were adjusted via config.  Three different test types were run which are discussed later.
 
-> **NOTE** It may be useful to discuss the number of query threads configured for each sserver/tserver.
-
 All test were run by starting a kubernetes deployment (an example is [here](query-job.yaml)) that would create a lot of concurrent activity against scan servers or tservers w/ very little logging.  After starting that, another kubernetes deployment (an example is [here](query-single.yaml)) with a single pod with a single thread and trace level logging would be started.  This single thread would execute a configured number of scans and then exit.  The second deployment was configured such that it would always finish before the first deployment.  The activity of the second single threaded deployment was analyzed for this report. After running a test, the following results were collected from this analysis.
-
-> **NOTE** If I'm understanding this correctly, you used the first k8s deployment to generate a lot of activity, then used the second k8s deployment for the measurements. Were the two deployments configured the same (sans scale configuration) ? 
 
  * **# busy events** : The number of times a scan server kicked back a busy event to the Accumulo client.  
  * **avg time** : The average time that scans took.
@@ -23,12 +43,16 @@ All test were run by starting a kubernetes deployment (an example is [here](quer
  * **min time** : The minimum observed time for a scan
  * **max time** : The maximum observed time for a scan
 
+Before starting each test the test config(except for concurrency) for the two deployments were manually changed.  At the end of each test the deployment configs use for the test were copied and can be inspected in each test dir.  There are config maps in the deployment descriptors that contain accumulo testing config that was passed to the ContinuousQuery class used for testing.  The script [record-results.sh](record-results.sh) was used to collect results at the end of each test.
+
 The following resources were used to run these test.
 
  * 1 X Standard_D8s_v4 VM running manager processes (Namenode, Zookeeper, Manager)
  * 3 X Standard_D8s_v4 VMs running tservers and datanodes.  Each VM had 8x64GB HDD.
  * 16 X Standard_D4ds_v5 VMs backing a Kubernetes node pool used to run scan test client.
  * 25 X Standard_D8ds_v5 VMs backing a Kubernetes node pool used to run scan servers.
+
+Both the tserver and sserver used the default scan threads config, which is 16 threads.  The settings for thrift threads was upped to 512 to ensure that servers could process connections in a timely manner.  These were the settings `sserver.server.threads.minimum` and `tserver.server.threads.minimum`.  All of the config for the scan servers can be seen in [accumulo-scanservers.yaml](accumulo-scanservers.yaml), look at the accumulo.properties and accumulo-env.sh config maps.
 
 ## Large scans test
 
@@ -121,7 +145,7 @@ Since these scans were so quick, an attempt to use a small busy timeout was made
 
 Since the test seemed constrained by datanodes when scaling up, tried scaling down in D833 and D832 in order to see a relative difference.  If the clusted had had more than 3 data nodes, would have tried increasing the replication of the data in DFS for testing purposes.
 
-> **NOTE** I'm a little confused by the results here and the fact that the datanodes were tapped out when the small scan test was configured to scan the same tablet. I would have thought that the block caches would have had a more positive effect here.
+The tablet servers and scan servers were configured with a small amount of RAM : 1.5G.  This would result in a small block cache.  It would be good to adjust the block cache settings and JVM memory to attempt to make tablets data fit in cache and rerun the test.  This should cause the suspected DN bottlenecks to go away.
 
 # Conclusion
 
