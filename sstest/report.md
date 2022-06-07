@@ -145,7 +145,7 @@ Since these scans were so quick, an attempt to use a small busy timeout was made
 
 Since the test seemed constrained by datanodes when scaling up, tried scaling down in D833 and D832 in order to see a relative difference.  If the clusted had had more than 3 data nodes, would have tried increasing the replication of the data in DFS for testing purposes.
 
-The tablet servers and scan servers were configured with a small amount of RAM : 1.5G.  This would result in a small block cache.  It would be good to adjust the block cache settings and JVM memory to attempt to make tablets data fit in cache and rerun the test.  This should cause the suspected DN bottlenecks to go away.
+The tablet servers and scan servers were configured with a small amount of RAM : 1.5G.  This would result in a small block cache.  Also the table setting `table.cache.block.enable` was set to false for all test, so only the index data in the ci table was cached.   It would be good to enable the cache and see what that looks like.
 
 # Conclusion
 
