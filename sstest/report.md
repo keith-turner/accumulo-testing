@@ -145,7 +145,26 @@ Since these scans were so quick, an attempt to use a small busy timeout was made
 
 Since the test seemed constrained by datanodes when scaling up, tried scaling down in D833 and D832 in order to see a relative difference.  If the clusted had had more than 3 data nodes, would have tried increasing the replication of the data in DFS for testing purposes.
 
-The tablet servers and scan servers were configured with a small amount of RAM : 1.5G.  This would result in a small block cache.  Also the table setting `table.cache.block.enable` was set to false for all test, so only the index data in the ci table was cached.   It would be good to enable the cache and see what that looks like.
+All test up to this point had the table setting `table.cache.block.enable` set to false, so only the rfile index data in the ci table was cached.   The setting was set to true so that rfile index and data were cached and the following test were run.
+
+Test | # Scan servers | #initial servers |   busy timeout | scan type | # concurrent | # busy events | avg time | std dev time | min time | max time
+ --- | ---------------| ---------------- | -------------- | --------- | ------------ | ------------- | -------- | ------------ | -------- | --------
+ [D839](tests/D839) |  N/A | N/A | N/A | immediate | 1 | 0 | 2.5ms |  12ms | 0ms | 480ms
+ [D838](tests/D838) |  1 | 1 | 33ms | eventual | 1 | 0 | 2.8ms | 15.6ms | 0ms | 615ms
+ [D834](tests/D834) | N/A | N/A | N/A | immediate | 721 | 0 | 90ms | 15ms | 44ms | 513ms
+ [D844](tests/D844) | N/A | N/A | N/A | immediate | 1441 | 0 | 179ms | 19ms | 116ms | 470ms
+ [D845](tests/D845) | N/A | N/A | N/A | immediate | 2881 | 0 | 529ms | 86ms | 348ms | 955ms
+ [D835](tests/D835) | 12 | 1 | 5ms | eventual | 721 | 945 | 34ms | 20ms | 10ms | 702ms
+ [D836](tests/D836) | 12 | 3 | 33ms | eventual | 721 | 1 | 18ms | 20ms | 1ms | 705ms
+ [D840](tests/D840) | 12 | 3 | 5ms | eventual | 721 | 518 | 17ms | 19ms | 3ms | 765ms
+ [D837](tests/D837) | 12 | 12 | 33ms | eventual | 721 | 0 | 5.0ms | 21ms | 0ms | 943ms
+ [D841](tests/D841) | 23 | 3 | 5ms | eventual | 721 | 571 | 17ms | 18ms | 2ms | 724ms
+ [D843](tests/D843) | 23 | 3 | 5ms | eventual | 1441 | 705 | 27ms | 26ms | 3ms | 890ms
+ [D846](tests/D846) | 23 | 3 | 5ms | eventual | 2881 | 763 | 43ms | 54ms | 4ms | 2002ms
+ [D842](tests/D842) | 23 | 23 | 5ms | eventual | 721 | 0 | 4.6ms | 24ms | 0ms | 1077ms
+ [D847](tests/D847) | 23 | 23 | 5ms | eventual | 2881 | 0 | 4.1ms | 20ms | 0ms | 867ms
+ 
+Tests D839 and D838 only had a single thread total running, for this case the scan server and tablet server are very similar.  Things were much faster with the cache and the datanode bottlenecks were avoided, which allowed experimenting with much higher levels of concurrency.  Looking at tests D834,D844, and D845 as the amount of concurrecy doubles the average times increase by double or more.  In tests D841,D843, and D846 as the concurrency doubles, the increase in average times is less than double which is nice.  Tests D837,D842, and D847 show that when all scan servers are used initially with high concurrency that the times are close to the single threaded tests D839 and D838.  In test D836 there was only one busy event, so that means most of the scans were processed by the three initial severs.  Tests D840 lower the busy timeout has a lot more busy events and gets slight better performance than D836.  Test D835 had one initial server and the most busy events.  Since D835 initially sends all scans to a single scan server, its similar to the tserver test D834 except the tserver test does not shed load when busy.
 
 # Conclusion
 

@@ -1,0 +1,165 @@
+start scan counts
+
+     37 10.1.0.115:9996
+     26 10.1.0.137:9996
+     21 10.1.0.15:9996
+     29 10.1.0.160:9996
+    680 10.1.0.181:9996
+    690 10.1.0.224:9996
+    714 10.1.0.58:9996
+     37 10.1.0.80:9996
+     37 10.1.1.108:9996
+     29 10.1.1.124:9996
+     34 10.1.1.177:9996
+     28 10.1.1.191:9996
+     33 10.1.2.107:9996
+     39 10.1.2.126:9996
+     28 10.1.2.12:9996
+     34 10.1.2.158:9996
+     24 10.1.2.190:9996
+     27 10.1.2.222:9996
+     31 10.1.2.45:9996
+     31 10.1.2.68:9996
+     33 10.1.3.10:9996
+     36 10.1.3.21:9996
+     31 10.1.3.69:9996
+
+continue scan counts
+
+
+Connection stats
+
+      1 ThriftTransportPool] DEBUG: Set thrift transport pool idle time to 3000ms
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.0.2.4:9997
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.0.2.5:9997
+      4 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.115:9996
+      5 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.137:9996
+      7 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.15:9996
+      5 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.160:9996
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.181:9996
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.224:9996
+      1 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.58:9996
+      2 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.0.80:9996
+      2 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.1.108:9996
+      5 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.1.124:9996
+      5 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.1.177:9996
+      2 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.1.191:9996
+      4 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.2.107:9996
+      4 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.2.126:9996
+      4 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.2.12:9996
+      3 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.2.158:9996
+      4 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.2.190:9996
+      4 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.2.222:9996
+      5 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.2.45:9996
+      4 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.2.68:9996
+      4 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.3.10:9996
+      4 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.3.21:9996
+      5 ThriftTransportPool] TRACE: Creating new connection to connection to 10.1.3.69:9996
+     33 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.115:9996
+     33 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.115:9996 (120000)
+     21 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.137:9996
+     21 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.137:9996 (120000)
+     14 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.15:9996
+     14 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.15:9996 (120000)
+     24 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.160:9996
+     24 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.160:9996 (120000)
+    679 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.181:9996
+    679 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.181:9996 (120000)
+    689 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.224:9996
+    689 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.224:9996 (120000)
+    713 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.58:9996
+    713 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.58:9996 (120000)
+     35 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.80:9996
+     35 ThriftTransportPool] TRACE: Using existing connection to 10.1.0.80:9996 (120000)
+     35 ThriftTransportPool] TRACE: Using existing connection to 10.1.1.108:9996
+     35 ThriftTransportPool] TRACE: Using existing connection to 10.1.1.108:9996 (120000)
+     24 ThriftTransportPool] TRACE: Using existing connection to 10.1.1.124:9996
+     24 ThriftTransportPool] TRACE: Using existing connection to 10.1.1.124:9996 (120000)
+     29 ThriftTransportPool] TRACE: Using existing connection to 10.1.1.177:9996
+     29 ThriftTransportPool] TRACE: Using existing connection to 10.1.1.177:9996 (120000)
+     26 ThriftTransportPool] TRACE: Using existing connection to 10.1.1.191:9996
+     26 ThriftTransportPool] TRACE: Using existing connection to 10.1.1.191:9996 (120000)
+     29 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.107:9996
+     29 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.107:9996 (120000)
+     35 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.126:9996
+     35 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.126:9996 (120000)
+     24 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.12:9996
+     24 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.12:9996 (120000)
+     31 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.158:9996
+     31 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.158:9996 (120000)
+     20 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.190:9996
+     20 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.190:9996 (120000)
+     23 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.222:9996
+     23 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.222:9996 (120000)
+     26 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.45:9996
+     26 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.45:9996 (120000)
+     27 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.68:9996
+     27 ThriftTransportPool] TRACE: Using existing connection to 10.1.2.68:9996 (120000)
+     29 ThriftTransportPool] TRACE: Using existing connection to 10.1.3.10:9996
+     29 ThriftTransportPool] TRACE: Using existing connection to 10.1.3.10:9996 (120000)
+     32 ThriftTransportPool] TRACE: Using existing connection to 10.1.3.21:9996
+     32 ThriftTransportPool] TRACE: Using existing connection to 10.1.3.21:9996 (120000)
+     26 ThriftTransportPool] TRACE: Using existing connection to 10.1.3.69:9996
+     26 ThriftTransportPool] TRACE: Using existing connection to 10.1.3.69:9996 (120000)
+      1 Returned connection 10.0.2.4:9997 (120000) ioCount
+      1 Returned connection 10.0.2.5:9997 (120000) ioCount
+     37 Returned connection 10.1.0.115:9996 (120000) ioCount
+     26 Returned connection 10.1.0.137:9996 (120000) ioCount
+     21 Returned connection 10.1.0.15:9996 (120000) ioCount
+     29 Returned connection 10.1.0.160:9996 (120000) ioCount
+    680 Returned connection 10.1.0.181:9996 (120000) ioCount
+    690 Returned connection 10.1.0.224:9996 (120000) ioCount
+    714 Returned connection 10.1.0.58:9996 (120000) ioCount
+     37 Returned connection 10.1.0.80:9996 (120000) ioCount
+     37 Returned connection 10.1.1.108:9996 (120000) ioCount
+     29 Returned connection 10.1.1.124:9996 (120000) ioCount
+     34 Returned connection 10.1.1.177:9996 (120000) ioCount
+     28 Returned connection 10.1.1.191:9996 (120000) ioCount
+     33 Returned connection 10.1.2.107:9996 (120000) ioCount
+     39 Returned connection 10.1.2.126:9996 (120000) ioCount
+     28 Returned connection 10.1.2.12:9996 (120000) ioCount
+     34 Returned connection 10.1.2.158:9996 (120000) ioCount
+     24 Returned connection 10.1.2.190:9996 (120000) ioCount
+     27 Returned connection 10.1.2.222:9996 (120000) ioCount
+     31 Returned connection 10.1.2.45:9996 (120000) ioCount
+     31 Returned connection 10.1.2.68:9996 (120000) ioCount
+     33 Returned connection 10.1.3.10:9996 (120000) ioCount
+     36 Returned connection 10.1.3.21:9996 (120000) ioCount
+     31 Returned connection 10.1.3.69:9996 (120000) ioCount
+
+Scan server to tablet stats
+
+     37 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.115:9996 delay:PT0S busyTimeout:PT0.005S
+     26 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.137:9996 delay:PT0S busyTimeout:PT0.005S
+     21 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.15:9996 delay:PT0S busyTimeout:PT0.005S
+     29 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.160:9996 delay:PT0S busyTimeout:PT0.005S
+    680 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.181:9996 delay:PT0S busyTimeout:PT0.005S
+    690 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.224:9996 delay:PT0S busyTimeout:PT0.005S
+    714 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.58:9996 delay:PT0S busyTimeout:PT0.005S
+     37 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.0.80:9996 delay:PT0S busyTimeout:PT0.005S
+     35 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.1.108:9996 delay:PT0S busyTimeout:PT0.005S
+     28 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.1.124:9996 delay:PT0S busyTimeout:PT0.005S
+     33 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.1.177:9996 delay:PT0S busyTimeout:PT0.005S
+     28 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.1.191:9996 delay:PT0S busyTimeout:PT0.005S
+     33 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.107:9996 delay:PT0S busyTimeout:PT0.005S
+     39 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.126:9996 delay:PT0S busyTimeout:PT0.005S
+     28 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.12:9996 delay:PT0S busyTimeout:PT0.005S
+     34 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.158:9996 delay:PT0S busyTimeout:PT0.005S
+     24 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.190:9996 delay:PT0S busyTimeout:PT0.005S
+     27 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.222:9996 delay:PT0S busyTimeout:PT0.005S
+     31 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.45:9996 delay:PT0S busyTimeout:PT0.005S
+     31 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.2.68:9996 delay:PT0S busyTimeout:PT0.005S
+     33 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.3.10:9996 delay:PT0S busyTimeout:PT0.005S
+     36 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.3.21:9996 delay:PT0S busyTimeout:PT0.005S
+     31 For tablet 1;79999999999999a5;733333333333333e scan server dispatcher chose scan_server:10.1.3.69:9996 delay:PT0S busyTimeout:PT0.005S
+      2 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.1.108:9996 delay:PT0S busyTimeout:PT0.005S
+      1 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.1.124:9996 delay:PT0S busyTimeout:PT0.005S
+      1 For tablet 1<;79999999999999a5 scan server dispatcher chose scan_server:10.1.1.177:9996 delay:PT0S busyTimeout:PT0.005S
+
+Busy counts
+
+    705    4230   62040
+
+FINAL STATS
+
+2022-06-07T18:31:32,921 [testing.continuous.ContinuousQuery] INFO : FINAL STATS count:2000 minTime:3.0 maxTime:890.0 avgTime:26.977500000000013 stdevTime:26.222219512239487 minResults:0.0 maxResults:722.0 avgResults:181.81900000000041 stddevResults:157.97683241155775
